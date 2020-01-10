@@ -17,6 +17,7 @@ namespace WebApplication3.Models
         [Required]
         public string Name { set; get; }
         [Required]
+
         public int Age { set; get; }
         [Required]
         public DateTime BirthDate { get; set; }
