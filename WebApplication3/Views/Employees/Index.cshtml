@@ -1,0 +1,238 @@
+﻿@model IEnumerable<WebApplication3.Models.Employee>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<h3>
+    <span style="color: gray;font-size: 23px;">Employee System  </span>
+
+    <span style="color:red;font-size: 23px;"> / </span>
+    <span style=" color:#3379b7">Employees List </span>
+</h3>
+
+<br />
+
+<div class="table-responsive">
+    <table class="table table-bordered  table-hover table-responsive table-striped" style="">
+        <tr style="text-align:left !important;font-size: 14px;">
+            <td colspan="6" style="text-align:left">
+             
+                <a href="javascript:void(0);" class="anchorDetail btn btn-primary btn btn-success" data-id="">Add New Employee</a>
+            </td>
+
+
+        </tr>
+        <tr style="text-align:right !important;font-size: 14px;">
+
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Age)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BirthDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Photo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JopTitle)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Age)
+                </td>
+                <td>
+                  
+                    @{
+                        var emp = @item.BirthDate;
+                     }
+                    @emp.ToString("dd-MM-yyyy")
+                </td>
+                <td style="text-align:center">
+                    <img style="width:100px;height:70px;" src="~/@item.Photo"/>
+                
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.JopTitle)
+                </td>
+                <td>
+                  
+                    <a href="javascript:void(0);" class="anchorEdit " data-id="@item.ID">Edit</a>
+                    |
+                    <a href="#" data-href="Details?id=@item.ID" data-toggle="modal" data-target="#confirm-Details">Details</a> <br>
+                    <div class="modal fade" id="confirm-Details" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h2 class="modal-title" id="myModalLabel">Show More Details</h2>
+                                </div>
+
+                                <div class="modal-body">
+                                    <p style="font-size:24px;">
+
+                                        <h1> Name : @item.Name</h1>
+                                        <h1> Age : @item.Age</h1>
+                                        <h1>
+                                             Birth Date :
+                                            @{
+                                                var date = item.BirthDate;
+                                            }
+                                            @date.ToString("dd-MM-yyyy")
+                                        </h1>
+                                        <h1> Job Title : @item.Name</h1>
+
+                                    </p>
+                                    <p></p>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    |
+
+                    <a href="#" data-href="Delete?id=@item.ID" data-toggle="modal" data-target="#confirm-delete">Delete</a> <br>
+                    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h2 class="modal-title" id="myModalLabel">Confirm Delete</h2>
+                                </div>
+
+                                <div class="modal-body">
+                                    <p style="font-size:24px;">
+                                        You are about to delete this Employee
+                                        <h1></h1>
+                                    </p>
+                                    <p>?Do you want to proceed </p>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    <a class="btn btn-danger btn-ok" @*href="~/Courses/delete?id=id"*@>Delete</a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </td>
+            </tr>
+        }
+
+    </table>
+    <div id='myModal' class='modal'>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id='myModalContent'></div>
+            </div>
+        </div>
+
+    </div>
+    <script>
+
+        $('#confirm-delete').on('show.bs.modal', function (e) {
+            $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+
+            $('.debug-url').html('Delete URL: <strong>' + $(this).find('.btn-ok').attr('href') + '</strong>');
+        });
+
+        $('#confirm-Details').on('show.bs.modal', function (e) {
+            $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+
+            $('.debug-url').html('Delete URL: <strong>' + $(this).find('.btn-ok').attr('href') + '</strong>');
+        });
+
+        var TeamDetailPostBackURL = '../Employees/Create';
+        $(function () {
+            $(".anchorDetail").click(function () {
+                debugger;
+                var $buttonClicked = $(this);
+                //var id = $buttonClicked.attr('data-id');
+                var options = { "backdrop": "static", keyboard: true };
+                $.ajax({
+                    type: "GET",
+                    url: TeamDetailPostBackURL,
+                    contentType: "application/json; charset=utf-8",
+                    //data: { "Id": id },
+                    datatype: "json",
+                    success: function (data) {
+                        debugger;
+                        $('#myModalContent').html(data);
+                        $('#myModal').modal(options);
+                        $('#myModal').modal('show');
+
+                    },
+                    error: function () {
+                        alert("Dynamic content load failed.");
+                    }
+                });
+            });
+            //$("#closebtn").on('click',function(){
+            //    $('#myModal').modal('hide');
+
+            $("#closbtn").click(function () {
+                $('#myModal').modal('hide');
+            });
+        });
+
+        var EditURL = '../Employees/Edit';
+        $(function () {
+            $(".anchorEdit").click(function () {
+                debugger;
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                var options = { "backdrop": "static", keyboard: true };
+                $.ajax({
+                    type: "GET",
+                    url: EditURL,
+                    contentType: "application/json; charset=utf-8",
+                    data: { "Id": id },
+                    datatype: "json",
+                    success: function (data) {
+                        debugger;
+                        $('#myModalContent').html(data);
+                        $('#myModal').modal(options);
+                        $('#myModal').modal('show');
+
+                    },
+                    error: function () {
+                        alert("Dynamic content load failed.");
+                    }
+                });
+            });
+            //$("#closebtn").on('click',function(){
+            //    $('#myModal').modal('hide');
+
+            $("#closbtn").click(function () {
+                $('#myModal').modal('hide');
+            });
+        });
+    </script>
+
+
+
+
+
+</div>
+    

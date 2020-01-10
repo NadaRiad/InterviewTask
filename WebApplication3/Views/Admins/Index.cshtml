@@ -1,0 +1,107 @@
+﻿@model IEnumerable<WebApplication3.Models.Admin>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h3>
+    <span style="color: gray;font-size: 23px;">Employee System  </span>
+
+    <span style="color:red;font-size: 23px;"> / </span>
+    <span style=" color:#3379b7">Admins List </span>
+</h3>
+
+<br />
+
+<div class="table-responsive">
+    <table class="table table-bordered  table-hover table-responsive table-striped" style="">
+        <tr style="text-align:left !important;font-size: 14px;">
+            <td colspan="6" style="text-align:left">
+
+                <a href="javascript:void(0);" class="anchorDetail btn btn-primary btn btn-success" data-id="">Add New Admin</a>
+            </td>
+
+
+        </tr>
+        <tr style="text-align:right !important;font-size: 14px;">
+
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Password)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Password)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+              
+            </tr>
+        }
+
+    </table>
+</div>
+
+<div id='myModal' class='modal'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+
+</div>
+<script>
+
+    $('#confirm-delete').on('show.bs.modal', function (e) {
+        $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+
+        $('.debug-url').html('Delete URL: <strong>' + $(this).find('.btn-ok').attr('href') + '</strong>');
+    });
+    var TeamDetailPostBackURL = '../Admins/Create';
+    $(function () {
+        $(".anchorDetail").click(function () {
+            debugger;
+            var $buttonClicked = $(this);
+            //var id = $buttonClicked.attr('data-id');
+            var options = { "backdrop": "static", keyboard: true };
+            $.ajax({
+                type: "GET",
+                url: TeamDetailPostBackURL,
+                contentType: "application/json; charset=utf-8",
+                //data: { "Id": id },
+                datatype: "json",
+                success: function (data) {
+                    debugger;
+                    $('#myModalContent').html(data);
+                    $('#myModal').modal(options);
+                    $('#myModal').modal('show');
+
+                },
+                error: function () {
+                    alert("Dynamic content load failed.");
+                }
+            });
+        });
+        //$("#closebtn").on('click',function(){
+        //    $('#myModal').modal('hide');
+
+        $("#closbtn").click(function () {
+            $('#myModal').modal('hide');
+        });
+    });
+
+</script>

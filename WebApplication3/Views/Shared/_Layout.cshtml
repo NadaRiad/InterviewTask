@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "Contact";
+    Layout = null;
+}
+<meta name="viewport" content="width=device-width" />
+
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/css/prettyPhoto.css" rel="stylesheet" />
+<script src="~/Content/js/jquery-2.1.1.min.js"></script>
+
+<link href="~/Content/css/MyStyle.css" rel="stylesheet" />
+
+<!------ Include the above in your HEAD tag ---------->
+<div class="container">
+    <div class="row">
+        <h4>
+            <span style="text-align:left;float:right">
+                <a style="color:red;" href="~/Admins/logOut">
+                    <span class="glyphicon glyphicon-log-out"></span>
+                    Sign out
+                </a>
+            </span>
+            <span style="text-align:left; " dir="ltr">
+                <span class="glyphicon glyphicon-home" style="text-align:left;"> </span>
+
+                Employee System
+
+
+
+                &nbsp; &nbsp;
+                &nbsp; &nbsp;
+
+                <span class="glyphicon glyphicon-user" style="text-align:left;"> </span>
+                User Name :
+                <span>  @Session["UserName"].ToString()  </span>
+
+            </span>
+        </h4>
+        <hr />
+    </div>
+
+    <div class="row">
+        <div class="col-sm-3 col-md-2">
+
+            <hr />
+            <ul class="nav nav-pills nav-stacked">
+                <li class="active">
+                    <a href="~/Employees/Index"> Employees </a>
+                </li>
+                <li><hr /></li>
+                <li><a href="~/Admins/Index" class="btn btn-lg btn-default">Admins</a></li>
+
+            </ul>
+        </div>
+        <div class="col-sm-9 col-md-10">
+            @RenderBody()
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/bootstrap.min.js"></script>
+
+
+
+<script src="~/Content/js/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
