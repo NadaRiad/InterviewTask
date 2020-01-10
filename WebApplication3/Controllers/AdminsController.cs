@@ -68,7 +68,7 @@ namespace WebApplication3.Controllers
         }
 
         
-        // GET: Admins/Create
+     
         public ActionResult Create()
         {
             return PartialView("_AddAdmin");
